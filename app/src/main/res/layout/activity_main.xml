@@ -3,14 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-    </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         tools:context=".MainActivity">
 
         <Button
@@ -20,12 +17,12 @@
             android:layout_marginTop="10dp"
             android:text="My Account" />
 
-        <Button
-            android:id="@+id/main_google_account_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Google Account" />
+<!--        <Button-->
+<!--            android:id="@+id/main_google_account_btn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:text="Google Account" />-->
 
         <Button
             android:id="@+id/main_all_account_btn"
@@ -39,7 +36,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Login"/>
+            android:text="Login" />
+
+        <Button
+            android:id="@+id/main_remove_account_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove account"/>
 
         <TextView
             android:id="@+id/main_account_info_tv"

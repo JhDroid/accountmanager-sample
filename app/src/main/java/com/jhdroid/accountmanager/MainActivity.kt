@@ -2,6 +2,8 @@ package com.jhdroid.accountmanager
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.jhdroid.accountmanager.authenticator.AuthenticatorActivity
 import com.jhdroid.accountmanager.databinding.ActivityMainBinding
@@ -21,23 +23,27 @@ class MainActivity : AppCompatActivity() {
         binding.mainMyAccountBtn.setOnClickListener {
             AccountHelper.getMyAccounts()?.forEach { account ->
                 appendLog("name : ${account.name}\ntype : ${account.type}")
-            }
+            } ?: appendLog("계정 정보 없음")
         }
 
-        binding.mainGoogleAccountBtn.setOnClickListener {
-            AccountHelper.getGoogleAccounts()?.forEach { account ->
-                appendLog("name : ${account.name}\ntype : ${account.type}")
-            }
-        }
+//        binding.mainGoogleAccountBtn.setOnClickListener {
+//            AccountHelper.getGoogleAccounts()?.forEach { account ->
+//                appendLog("name : ${account.name}\ntype : ${account.type}")
+//            }
+//        }
 
         binding.mainAllAccountBtn.setOnClickListener {
             AccountHelper.getAccounts()?.forEach { account ->
                 appendLog("name : ${account.name}\ntype : ${account.type}")
-            }
+            } ?: appendLog("계정 정보 없음")
         }
 
         binding.mainLoginBtn.setOnClickListener {
             startActivity(Intent(this, AuthenticatorActivity::class.java))
+        }
+
+        binding.mainRemoveAccountBtn.setOnClickListener {
+            AccountHelper.removeAccount()
         }
     }
 

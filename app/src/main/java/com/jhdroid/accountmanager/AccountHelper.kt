@@ -59,6 +59,8 @@ object AccountHelper {
             getMyAccounts()?.get(0)?.also {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                     accountManager?.removeAccountExplicitly(it)
+                } else {
+                    accountManager?.removeAccount(it, null, null)
                 }
             }
         } else {

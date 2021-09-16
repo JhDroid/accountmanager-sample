@@ -3,9 +3,13 @@
     package="com.jhdroid.accountmanager">
 
     <!--기기의 계정 목록을 가져오기 위한 권한-->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"
+        android:maxSdkVersion="22" />
     <!--맞춤 사용자 유형 추가를 위한 권한-->
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <!--기기에 등록된 계정을 제거하기 위한 권한-->
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"
+        android:maxSdkVersion="22" />
 
     <application
         android:name=".App"
