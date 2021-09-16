@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">accountmanager-sample</string>
+
+    <!--Account-->
+    <string name="account_type">com.jhdroid.auth.login</string>
+    <string name="account_label">AccountManager Sample</string>
+</resources>
