@@ -44,6 +44,12 @@
             android:layout_height="wrap_content"
             android:text="Remove account"/>
 
+        <Button
+            android:id="@+id/main_get_token_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get token" />
+
         <TextView
             android:id="@+id/main_account_info_tv"
             android:layout_width="match_parent"
@@ -51,6 +57,5 @@
             android:layout_margin="10dp"
             android:textSize="17sp"
             tools:text="아에이오우" />
-
     </LinearLayout>
 </layout>

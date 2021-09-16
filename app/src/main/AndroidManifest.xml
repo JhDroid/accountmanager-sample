@@ -10,6 +10,11 @@
     <!--기기에 등록된 계정을 제거하기 위한 권한-->
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"
         android:maxSdkVersion="22" />
+    <!--토큰 요청을 위한 권한-->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"
+        android:maxSdkVersion="22" />
+    <!--OAuth2 서비스 인증을 위한 인터넷 권한-->
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".App"
@@ -31,7 +36,8 @@
 
         <activity android:name=".authenticator.AuthenticatorActivity" />
 
-        <service android:name=".authenticator.AuthenticatorService">
+        <service android:name=".authenticator.AuthenticatorService"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>

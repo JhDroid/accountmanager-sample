@@ -2,8 +2,6 @@ package com.jhdroid.accountmanager
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.jhdroid.accountmanager.authenticator.AuthenticatorActivity
 import com.jhdroid.accountmanager.databinding.ActivityMainBinding
@@ -45,9 +43,13 @@ class MainActivity : AppCompatActivity() {
         binding.mainRemoveAccountBtn.setOnClickListener {
             AccountHelper.removeAccount()
         }
+
+        binding.mainGetTokenBtn.setOnClickListener {
+            AccountHelper.getAuthToken(this)
+        }
     }
 
     private fun appendLog(msg: String) {
-        binding.mainAccountInfoTv.append("$msg\n")
+        binding.mainAccountInfoTv.append("$msg\n\n")
     }
 }

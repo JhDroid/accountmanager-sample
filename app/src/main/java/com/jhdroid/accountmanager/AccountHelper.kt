@@ -2,8 +2,10 @@ package com.jhdroid.accountmanager
 
 import android.accounts.Account
 import android.accounts.AccountManager
+import android.app.Activity
 import android.content.Context
 import android.os.Build
+import android.os.Bundle
 import timber.log.Timber
 
 object AccountHelper {
@@ -15,11 +17,13 @@ object AccountHelper {
      * Google의 계정 유형은 'com.google', Twitter의 계정 유형은 'com.twitter.android.auht.login'
      * */
     private const val MY_ACCOUNT_TYPE = "com.jhdroid.auth.login"
-    private const val GOOGLE_ACCOUNT_TYPE = "com.google"
+//    private const val GOOGLE_ACCOUNT_TYPE = "com.google"
 
     fun initAccountManager(context: Context) {
         accountManager = AccountManager.get(context)
     }
+
+    fun getAccountManager(): AccountManager? = accountManager
 
     /**
      * 사용자 계정 목록을 가져옴
@@ -28,7 +32,7 @@ object AccountHelper {
      * */
     fun getMyAccounts(): Array<out Account>? = accountManager?.getAccountsByType(MY_ACCOUNT_TYPE)
 
-    fun getGoogleAccounts(): Array<out Account>? = accountManager?.getAccountsByType(GOOGLE_ACCOUNT_TYPE)
+//    fun getGoogleAccounts(): Array<out Account>? = accountManager?.getAccountsByType(GOOGLE_ACCOUNT_TYPE)
 
     fun getAccounts(): Array<out Account>? = accountManager?.accounts
     
@@ -65,6 +69,24 @@ object AccountHelper {
             }
         } else {
             Timber.e("등록된 내 계정 정보 없음!")
+        }
+    }
+
+    /**
+     * 인증 토큰 요청하기
+     * */
+    fun getAuthToken(activity: Activity) {
+        if (getMyAccounts()?.isNotEmpty() == true) {
+            getMyAccounts()?.get(0)?.also {
+                accountManager?.getAuthToken(
+                    it,
+                    MY_ACCOUNT_TYPE,
+                    Bundle(),
+                    activity,
+                    OnTokenAcquired(),
+                    null
+                )
+            }
         }
     }
 }
