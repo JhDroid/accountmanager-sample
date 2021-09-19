@@ -17,13 +17,6 @@
             android:layout_marginTop="10dp"
             android:text="My Account" />
 
-<!--        <Button-->
-<!--            android:id="@+id/main_google_account_btn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:text="Google Account" />-->
-
         <Button
             android:id="@+id/main_all_account_btn"
             android:layout_width="wrap_content"
@@ -42,12 +35,14 @@
             android:id="@+id/main_remove_account_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Remove account"/>
 
         <Button
             android:id="@+id/main_get_token_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Get token" />
 
         <TextView

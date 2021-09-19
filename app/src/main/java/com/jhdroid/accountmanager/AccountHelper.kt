@@ -32,8 +32,9 @@ object AccountHelper {
      * */
     fun getMyAccounts(): Array<out Account>? = accountManager?.getAccountsByType(MY_ACCOUNT_TYPE)
 
-//    fun getGoogleAccounts(): Array<out Account>? = accountManager?.getAccountsByType(GOOGLE_ACCOUNT_TYPE)
-
+    /**
+     * 접근 가능한 모든 계정 목록을 불러옴
+     * */
     fun getAccounts(): Array<out Account>? = accountManager?.accounts
     
     
@@ -58,6 +59,9 @@ object AccountHelper {
         }
     }
 
+    /**
+     * 등록된 계정 제거
+     * */
     fun removeAccount() {
         if (getMyAccounts()?.isNotEmpty() == true) {
             getMyAccounts()?.get(0)?.also {

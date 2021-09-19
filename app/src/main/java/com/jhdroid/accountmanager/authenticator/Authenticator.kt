@@ -13,6 +13,10 @@ import timber.log.Timber
 class Authenticator(
     private val context: Context
 ): AbstractAccountAuthenticator(context) {
+    /**
+     * '설정 > 계정 및 백업 > 계정 관리 > 계정 추가'에서 자신의 앱을 선택하면 KEY_INTENT로 넘겨주는 Intent를 실행해줌
+     * 보통은 인증 정보를 받기위해 로그인 화면으로 이동시킨다. (ex: 네이버, 페이코)
+     * */
     override fun addAccount(
         response: AccountAuthenticatorResponse,
         accountType: String,

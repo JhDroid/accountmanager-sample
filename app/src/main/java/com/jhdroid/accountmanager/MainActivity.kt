@@ -24,12 +24,6 @@ class MainActivity : AppCompatActivity() {
             } ?: appendLog("계정 정보 없음")
         }
 
-//        binding.mainGoogleAccountBtn.setOnClickListener {
-//            AccountHelper.getGoogleAccounts()?.forEach { account ->
-//                appendLog("name : ${account.name}\ntype : ${account.type}")
-//            }
-//        }
-
         binding.mainAllAccountBtn.setOnClickListener {
             AccountHelper.getAccounts()?.forEach { account ->
                 appendLog("name : ${account.name}\ntype : ${account.type}")
