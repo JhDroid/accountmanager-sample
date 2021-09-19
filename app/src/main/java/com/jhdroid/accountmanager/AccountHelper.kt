@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import timber.log.Timber
+import java.lang.Exception
 
 object AccountHelper {
     private var accountManager: AccountManager? = null
@@ -17,7 +18,6 @@ object AccountHelper {
      * Google의 계정 유형은 'com.google', Twitter의 계정 유형은 'com.twitter.android.auht.login'
      * */
     private const val MY_ACCOUNT_TYPE = "com.jhdroid.auth.login"
-//    private const val GOOGLE_ACCOUNT_TYPE = "com.google"
 
     fun initAccountManager(context: Context) {
         accountManager = AccountManager.get(context)
@@ -91,6 +91,17 @@ object AccountHelper {
                     null
                 )
             }
+        }
+    }
+
+    /**
+     * 계정 비밀번호 확인
+     * */
+    fun getPassword(account: Account?): String? {
+        return try {
+            accountManager?.getPassword(account)
+        } catch (e: Exception) {
+            ""
         }
     }
 }

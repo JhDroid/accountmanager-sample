@@ -18,11 +18,11 @@ class Authenticator(
      * 보통은 인증 정보를 받기위해 로그인 화면으로 이동시킨다. (ex: 네이버, 페이코)
      * */
     override fun addAccount(
-        response: AccountAuthenticatorResponse,
-        accountType: String,
-        accountTokenType: String,
-        requiredFeatures: Array<out String>,
-        options: Bundle
+        response: AccountAuthenticatorResponse?,
+        accountType: String?,
+        accountTokenType: String?,
+        requiredFeatures: Array<out String>?,
+        options: Bundle?
     ): Bundle {
         Timber.d("addAccount()")
 
@@ -42,16 +42,16 @@ class Authenticator(
      * 인증 토큰을 받지 못하면 사용자 정보를 다시 받을 수 있게 로그인 화면으로 이동시킴(인증 실패 3번 사례)
      * */
     override fun getAuthToken(
-        response: AccountAuthenticatorResponse,
-        account: Account,
-        authTokenType: String,
-        options: Bundle
+        response: AccountAuthenticatorResponse?,
+        account: Account?,
+        authTokenType: String?,
+        options: Bundle?
     ): Bundle {
         val accountManager = AccountHelper.getAccountManager()
         var token = accountManager?.peekAuthToken(account, authTokenType) // 토큰을 전송한적이 있다면 이 함수를 통해 다시 받아옴
 
         if (token.isNullOrEmpty()) {
-            val pw = accountManager?.getPassword(account)
+            val pw = AccountHelper.getPassword(account)
             if (!pw.isNullOrEmpty()) {
                 // Server Login and get server token
             }
@@ -59,8 +59,8 @@ class Authenticator(
 
         return if (!token.isNullOrEmpty()) { // 토큰 생성 완료되면 KEY_AUTHTOKEN을 키로 토큰 전송 > OnTokenAcquired()
             Bundle().also {
-                it.putString(AccountManager.KEY_ACCOUNT_NAME, account.name)
-                it.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type)
+                it.putString(AccountManager.KEY_ACCOUNT_NAME, account?.name)
+                it.putString(AccountManager.KEY_ACCOUNT_TYPE, account?.type)
                 it.putString(AccountManager.KEY_AUTHTOKEN, token)
             }
         } else { // 인증 실패 3번 사례, OnTokenAcquired()에 작업하지 않아도 에러가 발생하면 알아서 이동함
