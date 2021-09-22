@@ -7,7 +7,9 @@ import android.accounts.AccountManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.google.gson.JsonObject
 import com.jhdroid.accountmanager.AccountHelper
+import com.jhdroid.accountmanager.remote.ApiUtil
 import timber.log.Timber
 
 class Authenticator(
@@ -53,11 +55,27 @@ class Authenticator(
         if (token.isNullOrEmpty()) {
             val pw = AccountHelper.getPassword(account)
             if (!pw.isNullOrEmpty()) {
-                // Server Login and get server token
+                val body = JsonObject().apply {
+                    addProperty("id", account?.name) // Account.getName() == ID
+                    addProperty("pw", pw)
+                }
+
+                /**
+                 * 사용자 인증 정보로 사용자 재확인
+                 * */
+                val apiResponse = ApiUtil.getApiService().login(body).execute()
+                if (apiResponse.isSuccessful) {
+                    val auth = apiResponse.body()
+
+                    token = auth?.authToken
+                }
             }
         }
 
         return if (!token.isNullOrEmpty()) { // 토큰 생성 완료되면 KEY_AUTHTOKEN을 키로 토큰 전송 > OnTokenAcquired()
+            // 사용자 토큰 재설정
+            AccountHelper.setAuthToken(account, token)
+
             Bundle().also {
                 it.putString(AccountManager.KEY_ACCOUNT_NAME, account?.name)
                 it.putString(AccountManager.KEY_ACCOUNT_TYPE, account?.type)

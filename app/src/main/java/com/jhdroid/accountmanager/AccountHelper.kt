@@ -6,8 +6,6 @@ import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import timber.log.Timber
-import java.lang.Exception
 
 object AccountHelper {
     private var accountManager: AccountManager? = null
@@ -53,44 +51,65 @@ object AccountHelper {
      * 이점을 고려해 사용자의 실제 비밀번호를 addAccountExplicitly()에 전달해서는 안됨
      * 사용이 제한적인 암호학적으로 안전한 토큰을 저장
      * */
-    fun addAccount(id: String, pw: String) {
+    fun addAccount(id: String, pw: String, authToken: String? = "") {
         Account(id, MY_ACCOUNT_TYPE).also { account ->
             accountManager?.addAccountExplicitly(account, pw, null)
+
+            if (!authToken.isNullOrEmpty()) {
+                accountManager?.setAuthToken(account, account.type, authToken)
+            }
+        }
+    }
+
+    /**
+     * 사용자 인증 토큰 설정
+     * */
+    fun setAuthToken(account: Account?, authToken: String?) {
+        if (account != null && !authToken.isNullOrEmpty()) {
+            accountManager?.setAuthToken(account, account.type, authToken)
         }
     }
 
     /**
      * 등록된 계정 제거
      * */
-    fun removeAccount() {
-        if (getMyAccounts()?.isNotEmpty() == true) {
-            getMyAccounts()?.get(0)?.also {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    accountManager?.removeAccountExplicitly(it)
-                } else {
-                    accountManager?.removeAccount(it, null, null)
-                }
+    fun removeAccount(account: Account?) {
+        if (account != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                accountManager?.removeAccountExplicitly(account)
+            } else {
+                accountManager?.removeAccount(account, null, null)
             }
-        } else {
-            Timber.e("등록된 내 계정 정보 없음!")
         }
     }
 
     /**
      * 인증 토큰 요청하기
      * */
-    fun getAuthToken(activity: Activity) {
-        if (getMyAccounts()?.isNotEmpty() == true) {
-            getMyAccounts()?.get(0)?.also {
-                accountManager?.getAuthToken(
-                    it,
-                    MY_ACCOUNT_TYPE,
+    fun getAuthToken(activity: Activity, account: Account?) : String? {
+        if (account != null) {
+            val token = accountManager?.peekAuthToken(account, account.type)
+
+            if (!token.isNullOrEmpty()) {
+                return token
+            } else {
+                val feature = accountManager?.getAuthToken(
+                    account,
+                    account.type,
                     Bundle(),
                     activity,
                     OnTokenAcquired(),
                     null
                 )
+
+                return if (feature?.isDone == true) {
+                    feature.result?.getString(AccountManager.KEY_AUTHTOKEN)
+                } else {
+                    ""
+                }
             }
+        } else {
+            return ""
         }
     }
 

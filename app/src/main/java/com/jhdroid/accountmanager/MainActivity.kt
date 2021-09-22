@@ -31,15 +31,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.mainLoginBtn.setOnClickListener {
-            startActivity(Intent(this, AuthenticatorActivity::class.java))
+            startActivityForResult(
+                Intent(this, AuthenticatorActivity::class.java),
+                AuthenticatorActivity.LOGIN_REQUEST_CODE
+            )
         }
 
         binding.mainRemoveAccountBtn.setOnClickListener {
-            AccountHelper.removeAccount()
+            AccountHelper.getMyAccounts()?.forEach { account ->
+                appendLog("remove account name : ${account.name}")
+                AccountHelper.removeAccount(account)
+            }
         }
 
         binding.mainGetTokenBtn.setOnClickListener {
-            AccountHelper.getAuthToken(this)
+            AccountHelper.getMyAccounts()?.forEach { account ->
+                val token = AccountHelper.getAuthToken(this, account)
+                appendLog("authToken account name : ${account.name}\ntoken : token")
+
+            }
         }
     }
 
