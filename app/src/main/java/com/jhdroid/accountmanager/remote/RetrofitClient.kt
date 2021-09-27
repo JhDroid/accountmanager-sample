@@ -9,17 +9,17 @@ object RetrofitClient {
 
     fun getApiClient(): Retrofit {
         if (apiClient == null) {
-            val client = OkHttpClient.Builder().addInterceptor {
-                val request = it.request().newBuilder()
+            val client = OkHttpClient.Builder()
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(25, TimeUnit.SECONDS)
+                .addInterceptor {
+                    val request = it.request().newBuilder()
 //                    .addHeader()
-                    .build()
+                        .build()
 
-                it.proceed(request)
-            }.apply {
-                connectTimeout(15, TimeUnit.SECONDS)
-                readTimeout(15, TimeUnit.SECONDS)
-                writeTimeout(25, TimeUnit.SECONDS)
-            }
+                    it.proceed(request)
+                }
 
             apiClient = Retrofit.Builder()
                 .baseUrl(ApiUtil.BASE_URL)

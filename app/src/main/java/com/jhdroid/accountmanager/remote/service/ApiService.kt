@@ -7,6 +7,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface ApiService {
+    // Postman Mock Server Request
     @POST("/auth/login")
     fun login(@Body userData: JsonObject): Call<Auth>
 }
