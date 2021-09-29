@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import java.util.concurrent.TimeUnit
 
 object AccountHelper {
     private var accountManager: AccountManager? = null
@@ -102,9 +103,10 @@ object AccountHelper {
                     null
                 )
 
-                return if (feature?.isDone == true) {
-                    feature.result?.getString(AccountManager.KEY_AUTHTOKEN)
-                } else {
+                return try {
+                    // 5초 이상 데이터를 못불러오면 Exception 발생
+                    feature?.getResult(5, TimeUnit.SECONDS)?.getString(AccountManager.KEY_AUTHTOKEN)
+                } catch (e: Exception) {
                     ""
                 }
             }
