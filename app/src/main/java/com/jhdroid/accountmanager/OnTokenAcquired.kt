@@ -7,7 +7,7 @@ import android.os.Bundle
 import timber.log.Timber
 
 /**
- * Bundler이 포함된 AccountManagerFuture
+ * Bundle이 포함된 AccountManagerFuture
  * run()을 호출, 호출이 성공하면 Bundle(AccountManagerFuture<Bundle>)에서 토큰을 가져와야 함
  *
  * 토큰 요청은 다음과 같은 이유로 실패할 수 있음

@@ -19,13 +19,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupView() {
         binding.mainMyAccountBtn.setOnClickListener {
-            AccountHelper.getMyAccounts()?.forEach { account ->
+            AccountHelper.getMyAccounts().takeIf { !it.isNullOrEmpty() }?.forEach { account ->
                 appendLog("name : ${account.name}\ntype : ${account.type}")
             } ?: appendLog("계정 정보 없음")
         }
 
         binding.mainAllAccountBtn.setOnClickListener {
-            AccountHelper.getAccounts()?.forEach { account ->
+            AccountHelper.getAccounts().takeIf { !it.isNullOrEmpty() }?.forEach { account ->
                 appendLog("name : ${account.name}\ntype : ${account.type}")
             } ?: appendLog("계정 정보 없음")
         }
@@ -47,8 +47,7 @@ class MainActivity : AppCompatActivity() {
         binding.mainGetTokenBtn.setOnClickListener {
             AccountHelper.getMyAccounts()?.forEach { account ->
                 val token = AccountHelper.getAuthToken(this, account)
-                appendLog("authToken account name : ${account.name}\ntoken : token")
-
+                appendLog("authToken account name : ${account.name}\ntoken : $token")
             }
         }
     }
